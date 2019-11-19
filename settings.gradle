@@ -1,0 +1,2 @@
+include ':app', ':track-event', ':track-webview'
+rootProject.name='TrackingApp'

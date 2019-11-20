@@ -41,10 +41,10 @@ public class RetrofitClientInstance {
                 @Field("token")  String token,
                 @Field("unique_id") String unique_id,
                 @Field("referer") String referer,
-                @Field("event") String event,
+                /*@Field("event") String event,
                 @Field("event_value") String event_value,
                 @Field("key") String key,
-                @Field("key_value") String key_value,
+                @Field("key_value") String key_value,*/
                 @Field("info[phn_detail[FINGERPRINT]") String phoneDetail_p,
                 @Field("info[phn_detail[SDK]]") String phoneDetail_s,
                 @Field("info[phn_detail[RELEASE]]") String phoneDetail_d,

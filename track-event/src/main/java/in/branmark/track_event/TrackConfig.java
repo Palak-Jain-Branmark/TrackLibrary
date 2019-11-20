@@ -15,7 +15,6 @@ public class TrackConfig {
     public String token;
     public Context context;
     public int environment;
-    public String gaid;
     public String secretID;
     public String info1;
     public String info2;

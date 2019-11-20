@@ -63,18 +63,19 @@ public class Track {
         secretInfo.put(TrackConfig.KEY_INFO1,trackConfig.info1);
         secretInfo.put(TrackConfig.KEY_INFO2,trackConfig.info2);
         secretInfo.put(TrackConfig.KEY_INFO3,trackConfig.info3);
-        secretInfo.put(TrackConfig.KEY_INFO4,trackConfig.info4);
 
+
+        Track track = new Track(trackConfig.context);
+
+        String gaid = Utils.getGaidID(trackConfig.context);
+        String analyticsID = Utils.getAnalyticsID(trackConfig.context);
 
         RetrofitClientInstance.GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(RetrofitClientInstance.GetDataService.class);
-        Call<ResponseBody> call = service.post_request(trackConfig.token,trackConfig.gaid,
-                "",
-                "",
-                "",
-                "",
-                "",
-                "","","","",
+        Call<ResponseBody> call = service.post_request(trackConfig.token,gaid,
+                track.session.getreferer(),
+                android.os.Build.FINGERPRINT,android.os.Build.VERSION.SDK,android.os.Build.VERSION.RELEASE,android.os.Build.MODEL,
                 secretInfo);
+        secretInfo.put(TrackConfig.KEY_INFO4,trackConfig.info4);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

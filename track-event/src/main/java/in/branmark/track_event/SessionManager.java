@@ -1,13 +1,11 @@
-package in.branmark.mailmart;
+package in.branmark.track_event;
 
 import java.util.HashMap;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-import com.google.firebase.messaging.FirebaseMessaging;
 
 public class SessionManager {
 
@@ -36,18 +34,8 @@ public class SessionManager {
     int PRIVATE_MODE = 0;
 
     // Sharedpref file name
-    private static final String PREF_NAME = "MailerPref";
-    // All Shared Preferences Keys
-    private static final String IS_LOGIN = "IsLoggedIn";
-   // public static final String KEY_USER_DETAIL = "userdetail";
-    public static final String KEY_USER_ID = "user_id";
-    public static final String KEY_USER_NAME = "username";
-    public static final String KEY_USER_EMAIL = "useremail";
-    public static final String KEY_USER_SITEID = "siteid";
-    public static final String KEY_USER_EXPIRYTIME = "expire_time";
-    public static final String KEY_USER_LOGINKEY = "loginkey";
-
-    public static final String DATABASE_NAME = "Mailer_db";
+    private static final String PREF_NAME = "TRACK_APP";
+    public static final String KEY_REFERER_ID = "user_id";
 
     // Constructor
     public SessionManager(Context context){
@@ -56,85 +44,21 @@ public class SessionManager {
         editor = pref.edit();
     }
 
-    public void userLoggedIn(boolean isLoggedIn){
-        editor.putBoolean(IS_LOGIN, isLoggedIn);
-        editor.commit();
-    }
     /**
      * Create login session
      * */
-    public void createLoginSession(String uid){
-        // Storing login value as TRUE
-        editor.putBoolean(IS_LOGIN, true);
-        editor.putString(KEY_USER_ID, uid);
-       /*editor.putString(KEY_USER_NAME, userName);
-        editor.putString(KEY_USER_EMAIL, email_id);
-        editor.putString(KEY_USER_SITEID, siteID);
-        editor.putString(KEY_USER_EXPIRYTIME, expiryTime);
-//, String userName, String email_id, String siteID, String expiryTime*/
+    public void save_referer(String referrer){
+        editor.putString(KEY_REFERER_ID, referrer);
         editor.commit();
     }
-    public String getUserId(){
-        return pref.getString(KEY_USER_ID , null);
+    public String getreferer(){
+        return pref.getString(KEY_REFERER_ID, null);
     }
 
-    public HashMap<String, String> getUserDetails(){
+    public HashMap<String, String> getDetails(){
         HashMap<String, String> user = new HashMap<String, String>();
-        user.put(KEY_USER_ID,pref.getString(KEY_USER_ID , null));
-        //user.put(KEY_USER_NAME,pref.getString(KEY_USER_NAME , null));
-        //user.put(KEY_USER_EMAIL,pref.getString(KEY_USER_EMAIL , null));
-        //user.put(KEY_USER_SITEID,pref.getString(KEY_USER_SITEID , null));
-        //user.put(KEY_USER_EXPIRYTIME,pref.getString(KEY_USER_EXPIRYTIME , null));
-        // return user
+        user.put(KEY_REFERER_ID,pref.getString(KEY_REFERER_ID, null));
         return user;
     }
-    /*** Check login method wil check user login status* If false it will redirect user to login page* Else won't do anything* */
-    public void checkLogin(){
-        // Check login status
-        if(!this.isLoggedIn()){
-            // user is not logged in redirect him to Login Activity
-            Intent i = new Intent(_context, LoginActivity.class);
-            // Closing all the Activities
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            // Add new Flag to start new Activity
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            // Staring Login Activity
-            _context.startActivity(i);
-        }
-    }
 
-
-    public void logoutUser(){
-        // Clearing all data from Shared Preferences
-        editor.clear();
-        editor.commit();
-        // After logout redirect user to Loing Activity
-        Intent i = new Intent(_context, LoginActivity.class);
-        // Closing all the Activities
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        // Add new Flag to start new Activity
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        // Staring Login Activity
-        _context.startActivity(i);
-        // unsubscribe for firebase
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(TOPIC);
-
-    }
-
-    public boolean isLoggedIn(){
-        return pref.getBoolean(IS_LOGIN, false);
-    }
-
-    public void saveFirebaseToken(String FirebaseToken){
-        editor.putBoolean(IS_TOKEN_SAVED, true);
-        editor.putString(FIREBASE_TOKEN,FirebaseToken);
-        editor.commit();
-    }
-    public String firebaseToken(){
-        return pref.getString(FIREBASE_TOKEN , null);
-    }
-    public boolean isFirebaseTokenSaved(){
-        return pref.getBoolean(IS_TOKEN_SAVED , false);
-
-    }
 }

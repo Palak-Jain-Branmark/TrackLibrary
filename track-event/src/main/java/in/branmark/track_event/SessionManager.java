@@ -9,23 +9,6 @@ import android.content.SharedPreferences.Editor;
 
 public class SessionManager {
 
-    public static final String FIREBASE_TOKEN = "firebase_token";
-    private static final String IS_TOKEN_SAVED = "is_token_saved";
-
-    // global topic to receive app wide push notifications
-    public static final String TOPIC_GLOBAL = "global";
-
-    // broadcast receiver intent filters
-    public static final String REGISTRATION_COMPLETE = "registrationComplete";
-    public static final String PUSH_NOTIFICATION = "pushNotification";
-
-    // id to handle the notification in the notification tray
-    public static final int NOTIFICATION_ID = 100;
-    public static final int NOTIFICATION_ID_BIG_IMAGE = 501;
-    public static final String TOPIC = "news";
-    //public static final String SHARED_PREF = "mailer_firebase";
-    public static final String ACCOUNT = "account" ;
-
 
     // Shared Preferences
     SharedPreferences pref;
@@ -35,7 +18,14 @@ public class SessionManager {
 
     // Sharedpref file name
     private static final String PREF_NAME = "TRACK_APP";
-    public static final String KEY_REFERER_ID = "user_id";
+    public static final String KEY_REFERER_ID = "referer";
+    private static final String KEY_TOKEN_ID = "token";
+    private static final String KEY_GAID = "token";
+    private static final String KEY_ANALYST_ID = "token";
+    private static final String KEY_DEVICE_SDK = "d_sdk";
+    private static final String KEY_DEVICE_RELEASE = "d_release";
+    private static final String KEY_DEVICE_MODEL = "d_model";
+    private static final String KEY_DEVICE_FINGERPRINT = "d_fingerprint";
 
     // Constructor
     public SessionManager(Context context){
@@ -54,6 +44,12 @@ public class SessionManager {
     public String getreferer(){
         return pref.getString(KEY_REFERER_ID, null);
     }
+    public String gettoken(){
+        return pref.getString(KEY_TOKEN_ID, null);
+    }
+    public String getGaidID(){
+        return pref.getString(KEY_GAID, null);
+    }
 
     public HashMap<String, String> getDetails(){
         HashMap<String, String> user = new HashMap<String, String>();
@@ -61,4 +57,18 @@ public class SessionManager {
         return user;
     }
 
+    public void save(String token, String gaid, String analyticsID) {
+        editor.putString(KEY_TOKEN_ID, token);
+        editor.putString(KEY_GAID, gaid);
+        editor.putString(KEY_ANALYST_ID, analyticsID);
+        editor.commit();
+    }
+
+    public void saveDeviceDetail(String fingerprint, String sdk, String release, String model) {
+        editor.putString(KEY_DEVICE_FINGERPRINT, fingerprint);
+        editor.putString(KEY_DEVICE_SDK, sdk);
+        editor.putString(KEY_DEVICE_RELEASE, release);
+        editor.putString(KEY_DEVICE_MODEL, model);
+        editor.commit();
+    }
 }

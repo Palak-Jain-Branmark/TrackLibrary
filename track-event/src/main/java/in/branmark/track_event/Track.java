@@ -32,8 +32,8 @@ public class Track {
         Log.d(TAG,rawReferrer);
 
         RetrofitClientInstance.GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(RetrofitClientInstance.GetDataService.class);
-        Call<ResponseBody> call = service.send_referer("123",
-                "",
+        Call<ResponseBody> call = service.send_referer(track.session.gettoken(),
+                track.session.getGaidID(),
                 rawReferrer);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -63,19 +63,21 @@ public class Track {
         secretInfo.put(TrackConfig.KEY_INFO1,trackConfig.info1);
         secretInfo.put(TrackConfig.KEY_INFO2,trackConfig.info2);
         secretInfo.put(TrackConfig.KEY_INFO3,trackConfig.info3);
-
+        secretInfo.put(TrackConfig.KEY_INFO4,trackConfig.info4);
 
         Track track = new Track(trackConfig.context);
 
         String gaid = Utils.getGaidID(trackConfig.context);
         String analyticsID = Utils.getAnalyticsID(trackConfig.context);
 
+        track.session.save(trackConfig.token,gaid,analyticsID);
+        track.session.saveDeviceDetail(android.os.Build.FINGERPRINT,android.os.Build.VERSION.SDK,android.os.Build.VERSION.RELEASE,android.os.Build.MODEL);
+
         RetrofitClientInstance.GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(RetrofitClientInstance.GetDataService.class);
         Call<ResponseBody> call = service.post_request(trackConfig.token,gaid,
                 track.session.getreferer(),
                 android.os.Build.FINGERPRINT,android.os.Build.VERSION.SDK,android.os.Build.VERSION.RELEASE,android.os.Build.MODEL,
                 secretInfo);
-        secretInfo.put(TrackConfig.KEY_INFO4,trackConfig.info4);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -103,5 +105,28 @@ public class Track {
         } catch ( IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void triggerEvent(String eventName){
+        RetrofitClientInstance.GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(RetrofitClientInstance.GetDataService.class);
+        Call<ResponseBody> call = service.event_trigger(this.session.getreferer(),this.session.getGaidID(),
+                eventName);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                String resBody = null;
+                try {
+                    resBody = response.body().string();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Log.i(TAG, "Response Body: " + resBody);
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                Toast.makeText(trackConfig.context, "Error: Please Login Again" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Error Response" + t.getCause());
+            }
+        });
     }
 }

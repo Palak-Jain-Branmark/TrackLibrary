@@ -26,6 +26,7 @@ public class TrackConfig {
         this.context = context;
         this.token = Token;
         this.environment = envirement;
+
     }
     
     public void setAppSecret(String secretId,String  info1,String  info2,String  info3,String  info4){

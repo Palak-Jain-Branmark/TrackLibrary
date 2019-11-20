@@ -36,17 +36,8 @@ public class Utils {
             deviceDetailjs.put("PD_ADVERTISINGID",advId);
             deviceDetailjs.put("PD_ANALYTICSID", analyticsID);
 
-            //  Log.e("myDeviceDetail", "" + phone_detail);
-            //  Log.i("TAG", "SERIAL: " + Build);
             Log.i("TAG", "MODEL: " + Build.MODEL);
-            // Log.i("TAG", "ID: " + Build.ID);
-            // Log.i("TAG", "Manufacture: " + Build.MANUFACTURER); // Log.i("TAG", "HOST " + Build.HOST);//  Log.i("TAG", "brand: " + Build.BRAND);//samsung
-            // Log.i("TAG", "type: " + Build.TYPE);
-            //  Log.i("TAG", "user: " + Build.USER);
-            //  Log.i("TAG", "BASE: " + Build.VERSION_CODES.BASE);
-            // Log.i("TAG", "INCREMENTAL " + Build.VERSION.INCREMENTAL);
             Log.i("TAG", "SDK  " + Build.VERSION.SDK);
-            //  Log.i("TAG", "BOARD: " + Build.BOARD);
             Log.i("TAG", "FINGERPRINT: " + Build.FINGERPRINT);
             Log.i("TAG", "Version Code: " + Build.VERSION.RELEASE);
         } catch (JSONException e) {
@@ -64,7 +55,9 @@ public class Utils {
     public static String getGaidID(Context context){
         String advId = null;
         try {
-            advId = AdvertisingIdClient.getAdvertisingIdInfo(context).getId();
+            AdvertisingIdClient.Info adInfo = AdvertisingIdClient.getAdvertisingIdInfo(context);
+            advId = adInfo.getId();
+            boolean isLAT = adInfo.isLimitAdTrackingEnabled();
         } catch (IOException|GooglePlayServicesNotAvailableException | GooglePlayServicesRepairableException e) {
             e.printStackTrace();
         }

@@ -75,6 +75,13 @@ public class RetrofitClientInstance {
                 @Field("unique_id") String unique_id,
                 @Field("referer") String referer);
 
+        @FormUrlEncoded
+        @POST("app_tracking_api.php")
+        Call<ResponseBody> event_trigger(
+                @Field("token")  String token,
+                @Field("unique_id") String gaid,
+                @Field("event") String eventName);
+
     }
 
 }

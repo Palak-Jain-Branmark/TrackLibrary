@@ -1,11 +1,10 @@
-package in.branmark.mailmart;
+package in.branmark.track_event;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v4.net.ConnectivityManagerCompat;
 import android.util.Log;
 
 public class NetworkStateReceiver extends BroadcastReceiver {

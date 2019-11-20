@@ -91,15 +91,15 @@ public class Track {
     private static void responseBody(ResponseBody body,TrackConfig trackConfig) {
         try {String resBody = body.string();
             Log.i(TAG, "Response Body: " + resBody);
-            JSONObject outputjs = null;
+            /*JSONObject outputjs = null;
             outputjs = new JSONObject(resBody);
             if (outputjs.getString("stat").equals("1")) {
 
             } else {
                 Toast.makeText(trackConfig.context, "Error: Please Login Again" + outputjs.getString("response"), Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "Error Response" + outputjs.getString("response"));
-            }
-        } catch (JSONException | IOException e) {
+            }*/
+        } catch ( IOException e) {
             e.printStackTrace();
         }
     }

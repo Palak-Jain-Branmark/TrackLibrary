@@ -63,6 +63,10 @@ public class SessionManager {
         editor.putString(KEY_ANALYST_ID, analyticsID);
         editor.commit();
     }
+    public void saveGaid( String gaid) {
+        editor.putString(KEY_GAID, gaid);
+        editor.commit();
+    }
 
     public void saveDeviceDetail(String fingerprint, String sdk, String release, String model) {
         editor.putString(KEY_DEVICE_FINGERPRINT, fingerprint);

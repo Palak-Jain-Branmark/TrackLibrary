@@ -3,7 +3,9 @@ package in.branmark.trackingapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.CookieManager;
+import android.widget.Button;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -19,25 +21,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        try {
-            Track track = new Track(getApplicationContext());
+            final Track track = new Track(getApplicationContext());
             track.log("library is working");
 
 
-            MessageDigest mdEnc = MessageDigest.getInstance("MD5");
-
-            String random = "1234";
-            mdEnc.update(random.getBytes());
-            String md5 = new BigInteger(1, mdEnc.digest()).toString(16);
-            TrackConfig config = new TrackConfig(getApplicationContext(),md5, TrackConfig.ENVIRONMENT_DEVELOPMENT);
+            String random = "12345678909876543212345678909876";
+            TrackConfig config = new TrackConfig(getApplicationContext(),random, TrackConfig.ENVIRONMENT_DEVELOPMENT);
             Track.onCreate(config);
 
 
 
             /*String cookieString = "cookie_name=cookie_value; path=/";
             CookieManager.getInstance().setCookie(baseUrl, cookieString);*/
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+
+        final Button event_trigger =  findViewById(R.id.event_trigger);
+        event_trigger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                track.triggerEvent("Button Click ");
+            }
+        });
+
     }
 }

@@ -2,6 +2,8 @@ package in.branmark.track_event;
 
 import android.content.Context;
 
+import java.util.HashMap;
+
 public class TrackConfig {
 
 
@@ -12,6 +14,7 @@ public class TrackConfig {
     public static final String KEY_INFO4 = "info5";
     public static int ENVIRONMENT_DEVELOPMENT = 1;
     public static int ENVIRONMENT_DPRODUCTION = 2;
+    public static String gaid;
     public String token;
     public Context context;
     public int environment;
@@ -20,6 +23,7 @@ public class TrackConfig {
     public String info2;
     public String info3;
     public String info4;
+    public HashMap<String, String> secretInfo;
 
 
     public TrackConfig(Context context, String Token, int envirement) {

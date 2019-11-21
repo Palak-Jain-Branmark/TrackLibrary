@@ -17,7 +17,7 @@ import retrofit2.http.Query;
 
 public class RetrofitClientInstance {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://adr.jinex.in/";
+    private static final String BASE_URL = "https://adr.jinex.in/";
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
@@ -39,17 +39,17 @@ public class RetrofitClientInstance {
         @POST("app_tracking_api.php")
         Call<ResponseBody> post_request(
                 @Field("token")  String token,
-                @Field("unique_id") String unique_id,
-                @Field("referer") String referer,
-                /*@Field("event") String event,
+                @Field("unique_id") String unique_id//,
+//                @Field("referer") String referer
+                /*,@Field("event") String event,
                 @Field("event_value") String event_value,
                 @Field("key") String key,
-                @Field("key_value") String key_value,*/
+                @Field("key_value") String key_value*/,
                 @Field("info[phn_detail[FINGERPRINT]") String phoneDetail_p,
                 @Field("info[phn_detail[SDK]]") String phoneDetail_s,
                 @Field("info[phn_detail[RELEASE]]") String phoneDetail_d,
                 @Field("info[phn_detail[MODEL]]") String phoneDetail_m,
-                @Field("info[other]]") HashMap<String, String> other_info
+                @Field("info[secret_info]]") HashMap<String, String> other_info
         );
 
         @GET("app_tracking_api.php")

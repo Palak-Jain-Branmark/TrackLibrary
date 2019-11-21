@@ -29,12 +29,13 @@ public class Track {
     public static void sendReferrer(String rawReferrer, Context context) {
         Track track = new Track(context);
         track.session.save_referer(rawReferrer);
-        Log.d(TAG,rawReferrer);
+        Log.d(TAG," Referer : "+rawReferrer);
 
         RetrofitClientInstance.GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(RetrofitClientInstance.GetDataService.class);
         Call<ResponseBody> call = service.send_referer(track.session.gettoken(),
                 track.session.getGaidID(),
-                rawReferrer);
+                rawReferrer
+        );
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -46,7 +47,7 @@ public class Track {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e(TAG, "Error Response" + t.getCause());
+                Log.e(TAG, "Error Response" +  t.getMessage());
             }
         });
     }
@@ -65,19 +66,27 @@ public class Track {
         secretInfo.put(TrackConfig.KEY_INFO3,trackConfig.info3);
         secretInfo.put(TrackConfig.KEY_INFO4,trackConfig.info4);
 
+        trackConfig.secretInfo = secretInfo;
         Track track = new Track(trackConfig.context);
 
-        String gaid = Utils.getGaidID(trackConfig.context);
+        String gaid = Utils.getGaidID(trackConfig);
         String analyticsID = Utils.getAnalyticsID(trackConfig.context);
+
+        Log.e(TAG," token " + trackConfig.token);
+        Log.e(TAG," Gaid " + gaid);
+        Log.e(TAG," analyticsID " + analyticsID);
+        Log.e(TAG," referer " + track.session.getreferer());
 
         track.session.save(trackConfig.token,gaid,analyticsID);
         track.session.saveDeviceDetail(android.os.Build.FINGERPRINT,android.os.Build.VERSION.SDK,android.os.Build.VERSION.RELEASE,android.os.Build.MODEL);
+    }
 
+    public static void sendData(TrackConfig trackConfig,String gaid){
         RetrofitClientInstance.GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(RetrofitClientInstance.GetDataService.class);
-        Call<ResponseBody> call = service.post_request(trackConfig.token,gaid,
-                track.session.getreferer(),
-                android.os.Build.FINGERPRINT,android.os.Build.VERSION.SDK,android.os.Build.VERSION.RELEASE,android.os.Build.MODEL,
-                secretInfo);
+        Call<ResponseBody> call = service.post_request(trackConfig.token,gaid
+                ,android.os.Build.FINGERPRINT,android.os.Build.VERSION.SDK,android.os.Build.VERSION.RELEASE,android.os.Build.MODEL,
+                trackConfig.secretInfo
+        );
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -85,8 +94,8 @@ public class Track {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(trackConfig.context, "Error: Please Login Again" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "Error Response" + t.getCause());
+                Toast.makeText(trackConfig.context, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Error Response " +  t.getMessage());
             }
         });
     }
@@ -125,7 +134,7 @@ public class Track {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
 //                Toast.makeText(trackConfig.context, "Error: Please Login Again" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "Error Response" + t.getCause());
+                Log.e(TAG, "Error Response " +  t.getMessage());
             }
         });
     }

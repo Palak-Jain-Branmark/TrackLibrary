@@ -45,7 +45,7 @@ public class RetrofitClientInstance {
                 @Field("event_value") String event_value,
                 @Field("key") String key,
                 @Field("key_value") String key_value*/,
-                @Field("info[phn_detail[FINGERPRINT]") String phoneDetail_p,
+                @Field("info[phn_detail[FINGERPRINT]]") String phoneDetail_p,
                 @Field("info[phn_detail[SDK]]") String phoneDetail_s,
                 @Field("info[phn_detail[RELEASE]]") String phoneDetail_d,
                 @Field("info[phn_detail[MODEL]]") String phoneDetail_m,

@@ -118,7 +118,7 @@ public class Track {
 
     public void triggerEvent(String eventName){
         RetrofitClientInstance.GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(RetrofitClientInstance.GetDataService.class);
-        Call<ResponseBody> call = service.event_trigger(this.session.getreferer(),this.session.getGaidID(),
+        Call<ResponseBody> call = service.event_trigger(this.session.gettoken(),this.session.getGaidID(),
                 eventName);
         call.enqueue(new Callback<ResponseBody>() {
             @Override

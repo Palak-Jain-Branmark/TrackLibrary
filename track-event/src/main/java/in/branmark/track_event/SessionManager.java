@@ -20,8 +20,8 @@ public class SessionManager {
     private static final String PREF_NAME = "TRACK_APP";
     public static final String KEY_REFERER_ID = "referer";
     private static final String KEY_TOKEN_ID = "token";
-    private static final String KEY_GAID = "token";
-    private static final String KEY_ANALYST_ID = "token";
+    private static final String KEY_GAID = "gaid";
+    private static final String KEY_ANALYST_ID = "analystID";
     private static final String KEY_DEVICE_SDK = "d_sdk";
     private static final String KEY_DEVICE_RELEASE = "d_release";
     private static final String KEY_DEVICE_MODEL = "d_model";

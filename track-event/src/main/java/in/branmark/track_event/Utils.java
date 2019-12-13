@@ -54,9 +54,11 @@ public class Utils {
         return deviceDetailjs;
     }
 
-    public static String getGaidID(TrackConfig config){
+
+
+    public static  String getGaidID(TrackConfig config){
         final String[] advertId1 = new String[1];
-        AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
+        new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {String advId = null;
                 try {
@@ -74,16 +76,14 @@ public class Utils {
                 advertId1[0] = advertId;
                 SessionManager session = new SessionManager(config.context);
                 session.saveGaid(advertId);
-                TrackConfig.gaid = advertId;
+                config.gaid = advertId;
                 Track.sendData(config,advertId);
                 Log.d("UTILS","Gaid ID : "+advertId);
                 Toast.makeText(config.context, advertId, Toast.LENGTH_SHORT).show();
             }
-
         };
-        task.execute();
+//        return task.execute();
         return advertId1[0];
-
     }
     public static String getAnalyticsID(Context context){
         return InstanceID.getInstance(context).getId();

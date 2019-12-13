@@ -14,7 +14,7 @@ public class TrackConfig {
     public static final String KEY_INFO4 = "info5";
     public static int ENVIRONMENT_DEVELOPMENT = 1;
     public static int ENVIRONMENT_DPRODUCTION = 2;
-    public static String gaid;
+    public String gaid;
     public String token;
     public Context context;
     public int environment;
